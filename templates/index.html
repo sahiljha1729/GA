@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>String Evolution</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <!-- Left Column: Inputs -->
+    <div class="left-panel">
+        <h2>Parameters</h2>
+        <form action="/" method="POST">
+            <div class="field">
+                <label for="target">Target String</label>
+                <input type="text" id="target" name="target" value="{{ target }}" required>
+            </div>
+
+            <div class="field">
+                <label for="popsz">Population Size (popsz)</label>
+                <input type="number" id="popsz" name="popsz" value="{{ popsz }}" required>
+            </div>
+
+            <div class="field">
+                <label for="mutation_rate">Mutation Rate</label>
+                <input type="number" id="mutation_rate" name="mutation_rate" value="{{ mutation_rate }}" step="0.001" required>
+            </div>
+
+            <button type="submit">Evolve String</button>
+        </form>
+
+        {% if logs %}
+        <div class="summary">
+            <p><strong>Total Generations:</strong> {{ total_generations }}</p>
+            <p><strong>Status:</strong> Target Reached!</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Right Column: Generation Outputs -->
+    <div class="right-panel">
+        <h2>Generation Output</h2>
+        {% if logs %}
+        <div class="table-box">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Gen</th>
+                        <th>Best Match</th>
+                        <th>Fitness</th>
+                        <th>Avg</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in logs %}
+                    <tr>
+                        <td>{{ row.gen }}</td>
+                        <td class="str">{{ row.best }}</td>
+                        <td>{{ row.fitness }}</td>
+                        <td>{{ row.avg }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="placeholder">Set parameters on the left and click "Evolve String" to see results here.</p>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
